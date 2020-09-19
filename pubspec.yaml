@@ -1,0 +1,189 @@
+name: kids_development
+description: A new Flutter application.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.14+16
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^0.1.2
+  simple_animations: ^1.3.3
+  audioplayers: ^0.13.2
+  flutter_tts: ^0.6.0
+  devicelocale: ^0.2.0
+  firebase_core: ^0.4.0+9
+  firebase_crashlytics: ^0.1.0+3
+  firebase_admob: ^0.9.0+7
+  in_app_purchase: ^0.2.2+2
+  shared_preferences: ^0.5.4+5
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    # sounds
+    - assets/sounds/correct.mp3
+    - assets/sounds/incorrect.mp3
+    - assets/sounds/you_win.mp3
+    # animation
+    - images/star.png
+    # level icons
+    - images/odd_one_out_icon.png
+    - images/who_rides_what_icon.png
+    # odd one out
+    - images/bird.png
+    - images/butterfly1.png
+    - images/butterfly2.png
+    - images/butterfly3.png
+    - images/x.png
+    - images/checkmark.png
+    - images/cactus.png
+    - images/cat.png
+    - images/cherry.png
+    - images/dolphin.png
+    - images/elephant.png
+    - images/fish.png
+    - images/flower1_red.png
+    - images/flower2_red.png
+    - images/flower3_white.png
+    - images/flower4_red.png
+    - images/flower5_white.png
+    - images/frog.png
+    - images/ladybug.png
+    - images/lamb.png
+    - images/oak.png
+    - images/orange.png
+    - images/palm.png
+    - images/panther.png
+    - images/parrot.png
+    - images/penguin.png
+    - images/sea-dog.png
+    - images/tiger.png
+    - images/tree.png
+    - images/tulp_purple.png
+    - images/tulp_red.png
+    - images/tulp_yellow.png
+    - images/watermelon.png
+    - images/wolf.png
+    # occupations and vehicles
+    - images/doctor.png
+    - images/ambulance.png
+    - images/farmer.png
+    - images/tractor.png
+    - images/firefighter.png
+    - images/firetruck.png
+    - images/policeman.png
+    - images/police_car.png
+    - images/pilot.png
+    - images/plane.png
+    - images/astronaut.png
+    - images/rocket.png
+    - images/sailor.png
+    - images/ship.png
+    - images/construction_worker.png
+    - images/bulldozer.png
+    - images/postman.png
+    - images/post_van.png
+    - images/racer.png
+    - images/race_car.png
+    - images/santa.png
+    - images/sleigh.png
+    - images/soldier.png
+    - images/tank.png
+    # wild or farm
+    - images/forest.png
+    - images/deer.png
+    - images/zebra.png
+    - images/farm.png
+    - images/cow.png
+    - images/goat.png
+    - images/horse.png
+    - images/pig.png
+    - images/rooster.png
+    # edible or not edible
+    - images/broccoli.png
+    - images/edible.png
+    - images/not_edible.png
+    - images/pizza.png
+    - images/taco.png
+    - images/edible_or_not_icon.png
+    # matching items
+    - images/matching_icon.png
+    - images/present.png
+    - images/chair.png
+    - images/umbrella.png
+    - images/computer_mouse.png
+    - images/milk.png
+    - images/nail.png
+    - images/hanger.png
+    - images/key.png
+    - images/mail.png
+    - images/paintbrush.png
+    - images/spider.png
+    - images/cake.png
+    - images/table.png
+    - images/cloud.png
+    - images/laptop.png
+    - images/hammer.png
+    - images/t-shirt.png
+    - images/lock.png
+    - images/mailbox.png
+    - images/paints.png
+    - images/web.png
+    - images/vase.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
