@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:devicelocale/devicelocale.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:kids_development/levels/main_page.dart';
@@ -11,8 +12,6 @@ import 'const.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  Crashlytics.instance.enableInDevMode = true;
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
 //  runZoned<Future<void>>(() async {
 //    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -27,14 +26,13 @@ void main() {
       runApp(MyApp());
     });
   }, (Object error, StackTrace stack) {
-    Crashlytics.instance.recordError(error, stack);
+    FirebaseCrashlytics.instance.recordError(error, stack);
   });
 }
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MyAppState();
-
 }
 
 class _MyAppState extends State<MyApp> {
@@ -43,7 +41,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _prefs = _getSharedPrefs();
+    _prefs = _getSharedPrefsAndInitCrashlytics();
   }
 
   @override
@@ -73,6 +71,21 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  // Define an async function to initialize FlutterFire
+  Future<void> _initializeFlutterFire() async {
+    // Wait for Firebase to initialize
+    await Firebase.initializeApp();
+    await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+
+    // Pass all uncaught errors to Crashlytics.
+    Function originalOnError = FlutterError.onError;
+    FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+      await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+      // Forward to original handler.
+      originalOnError(errorDetails);
+    };
+  }
+
   Future<String> _getCurrentLocale() async {
     try {
       var languages = await Devicelocale.preferredLanguages;
@@ -88,7 +101,8 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  Future<SharedPreferences> _getSharedPrefs() async {
+  Future<SharedPreferences> _getSharedPrefsAndInitCrashlytics() async {
+    await _initializeFlutterFire();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String chosenLanguage = prefs.get(Constants.CHOSEN_LANGUAGE_KEY);
     String localeLanguage = await _getCurrentLocale();
