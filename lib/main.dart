@@ -36,7 +36,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<SharedPreferences> _prefs;
+  late Future<SharedPreferences> _prefs;
 
   @override
   void initState() {
@@ -56,8 +56,8 @@ class _MyAppState extends State<MyApp> {
         future: _prefs,
         builder: (BuildContext context,
             AsyncSnapshot<SharedPreferences> snapshot) {
-          if (snapshot.hasData) {
-            return MainPage(snapshot.data);
+          if (snapshot.hasData && snapshot.data != null) {
+            return MainPage(snapshot.data!);
           } else {
             return Scaffold(
                 appBar: AppBar(
@@ -78,12 +78,14 @@ class _MyAppState extends State<MyApp> {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
     // Pass all uncaught errors to Crashlytics.
-    Function originalOnError = FlutterError.onError;
-    FlutterError.onError = (FlutterErrorDetails errorDetails) async {
-      await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
-      // Forward to original handler.
-      originalOnError(errorDetails);
-    };
+    var originalOnError = FlutterError.onError;
+    if (originalOnError != null) {
+      FlutterError.onError = (FlutterErrorDetails errorDetails) async {
+        await FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+        // Forward to original handler.
+        originalOnError(errorDetails);
+      };
+    }
   }
 
   Future<String> _getCurrentLocale() async {

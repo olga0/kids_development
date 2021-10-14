@@ -29,17 +29,17 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  String _chosenLanguage;
-  String _localeLanguage;
+  late String _chosenLanguage;
+  late String _localeLanguage;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // variables for ad
-  AdsManager _adsManager;
+  late AdsManager _adsManager;
 
   // variables for in-app purchases
   bool _isAdRemoved = false;
-  PurchaseManager _purchaseManager;
-  Future<bool> _isPurchaseDataInitializationFinished;
+  late PurchaseManager _purchaseManager;
+  late Future<bool> _isPurchaseDataInitializationFinished;
 
   @override
   void initState() {
@@ -99,9 +99,9 @@ class MainPageState extends State<MainPage> {
                                     OddOneOutPage(_chosenLanguage, _showAd)),
                             icon: 'images/odd_one_out_icon.png',
                             borderColor: Colors.green,
-                            backgroundColor: Colors.green[100],
-                            highlightColor: Colors.green[200],
-                            textColor: Colors.green[700])
+                            backgroundColor: (Colors.green[100])!,
+                            highlightColor: (Colors.green[200])!,
+                            textColor: (Colors.green[700])!)
                         .draw(),
                     SizedBox(width: 20, height: 20),
                     LevelButton(
@@ -114,9 +114,9 @@ class MainPageState extends State<MainPage> {
                                         _chosenLanguage, _showAd)),
                             icon: 'images/who_rides_what_icon.png',
                             borderColor: Colors.amber,
-                            backgroundColor: Colors.amber[50],
-                            highlightColor: Colors.amber[200],
-                            textColor: Colors.amber[700])
+                            backgroundColor: (Colors.amber[50])!,
+                            highlightColor: (Colors.amber[200])!,
+                            textColor: (Colors.amber[700])!)
                         .draw(),
                     SizedBox(width: 20, height: 20),
                     LevelButton(
@@ -128,9 +128,9 @@ class MainPageState extends State<MainPage> {
                                     WildOrFarmPage(_chosenLanguage, _showAd)),
                             icon: 'images/pig.png',
                             borderColor: Colors.pink,
-                            backgroundColor: Colors.pink[50],
-                            highlightColor: Colors.pink[200],
-                            textColor: Colors.pink[700])
+                            backgroundColor: (Colors.pink[50])!,
+                            highlightColor: (Colors.pink[200])!,
+                            textColor: (Colors.pink[700])!)
                         .draw(),
                     SizedBox(width: 20, height: 20),
                     LevelButton(
@@ -142,9 +142,9 @@ class MainPageState extends State<MainPage> {
                                     EdibleOrNotPage(_chosenLanguage, _showAd)),
                             icon: 'images/edible_or_not_icon.png',
                             borderColor: Colors.blue,
-                            backgroundColor: Colors.blue[100],
-                            highlightColor: Colors.blue[200],
-                            textColor: Colors.blue[700])
+                            backgroundColor: (Colors.blue[100])!,
+                            highlightColor: (Colors.blue[200])!,
+                            textColor: (Colors.blue[700])!)
                         .draw(),
                     SizedBox(width: 20, height: 20),
                     LevelButton(
@@ -157,9 +157,9 @@ class MainPageState extends State<MainPage> {
                                         _chosenLanguage, _showAd)),
                             icon: 'images/matching_icon.png',
                             borderColor: Colors.red,
-                            backgroundColor: Colors.red[100],
-                            highlightColor: Colors.red[200],
-                            textColor: Colors.red[700])
+                            backgroundColor: (Colors.red[100])!,
+                            highlightColor: (Colors.red[200])!,
+                            textColor: (Colors.red[700])!)
                         .draw(),
                     SizedBox(width: 20, height: 20),
                     _buildRemoveAdsButton(),
@@ -193,7 +193,10 @@ class MainPageState extends State<MainPage> {
       else {
         return RaisedButton(
           onPressed: () {
-            _showPurchaseDialog(_scaffoldKey.currentContext, prod);
+            var context = _scaffoldKey.currentContext;
+            if (context != null) {
+              _showPurchaseDialog(context, prod);
+            }
           },
           child: Text(
               MyLocalizations.of(_localeLanguage, StringKeys.marketDialogTitle),
@@ -211,9 +214,9 @@ class MainPageState extends State<MainPage> {
     final snackBar = SnackBar(
       content: Text(message),
     );
-    ScaffoldState state = _scaffoldKey.currentState;
+    ScaffoldState? state = _scaffoldKey.currentState;
     if (state != null) {
-      _scaffoldKey.currentState.showSnackBar(snackBar);
+      _scaffoldKey.currentState!.showSnackBar(snackBar);
     }
     else {
       print('_scaffoldKey.currentState = null');
@@ -309,9 +312,11 @@ class MainPageState extends State<MainPage> {
         });
   }
 
-  void _setMainPageState({@required bool isAdsRemoved}) {
-    setState(() {
-      _isAdRemoved = isAdsRemoved;
-    });
+  void _setMainPageState({@required bool? isAdsRemoved}) {
+    if (isAdsRemoved != null) {
+      setState(() {
+        _isAdRemoved = isAdsRemoved;
+      });
+    }
   }
 }

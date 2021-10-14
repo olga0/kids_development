@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 
 class ParticleModel {
-  Animatable tween;
-  double size;
-  AnimationProgress animationProgress;
+  late Animatable tween;
+  late double size;
+  late AnimationProgress animationProgress;
   Random random;
 
   ParticleModel(this.random) {

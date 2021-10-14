@@ -4,7 +4,7 @@ import 'const.dart';
 
 
 class AdsManager {
-  InterstitialAd _interstitialAd;
+  InterstitialAd? _interstitialAd;
   int _counter = 0;
   static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
       testDevices: ['XT1526'],
@@ -19,7 +19,7 @@ class AdsManager {
         print("InterstitialAd event $event");
         if (event == MobileAdEvent.failedToLoad) {
           print('Trying to reload add');
-          _interstitialAd.load();
+          _interstitialAd?.load();
         } else if (event == MobileAdEvent.closed) {
           _interstitialAd = _buildInterstitial()..load();
         }
@@ -38,10 +38,10 @@ class AdsManager {
   Future<void> showAds() async {
     if (_interstitialAd != null) {
       _counter++;
-      bool result = await _interstitialAd.load();
+      bool result = await _interstitialAd!.load();
 
       if (result && _counter > 1) {
-        _interstitialAd.show();
+        _interstitialAd?.show();
       }
 //        ..load()
 //        ..show();

@@ -20,7 +20,7 @@ class Particles extends StatefulWidget {
 
 class _ParticlesState extends State<Particles> {
   final Random random = Random();
-  ui.Image starImage;
+  late ui.Image starImage;
   final List<ParticleModel> particles = [];
 
   @override

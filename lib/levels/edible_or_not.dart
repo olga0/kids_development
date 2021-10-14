@@ -23,18 +23,18 @@ class EdibleOrNotPage extends StatefulWidget {
 class EdibleOrNotPageState extends State<EdibleOrNotPage>
     with SingleTickerProviderStateMixin {
   bool _firstScreenLoaded = false;
-  double _width;
-  double _height;
+  late double _width;
+  late double _height;
   int _optionsNumOnScreen = 4;
   int _screenNumber = 1;
   AudioPlayer _audioPlayer = AudioPlayer();
   bool _allItemsSorted = false;
-  int _numberOfScreens;
-  ValueNotifier<bool> _animationFinished;
-  Particles _particles;
-  FlutterTts _flutterTts;
-  List<Item> _items = new List<Item>();
-  List<Item> _itemsOptions = new List<Item>();
+  late int _numberOfScreens;
+  late ValueNotifier<bool> _animationFinished;
+  late Particles _particles;
+  late FlutterTts _flutterTts;
+  List<Item> _items = [];
+  List<Item> _itemsOptions = [];
   Map<String, bool> _matched = {};
 
   @override
@@ -53,17 +53,10 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
       _width = MediaQuery.of(context).size.width * 0.4;
       _height = MediaQuery.of(context).size.height * 0.25;
       _firstScreenLoaded = true;
-
-      if (_flutterTts != null)
-        _speak();
-      else
-        print('tts = null');
+      _speak();
     }
 
     if (_screenNumber == _numberOfScreens && _allItemsSorted) {
-      if (_audioPlayer == null)
-        print('audioPlayer is null!!!!');
-      else
         _playSound('sounds/you_win.mp3');
     }
 
@@ -162,7 +155,7 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
 
   Widget _drawItemsPart() {
     if (_itemsOptions.length > 0) {
-      List<Column> itemsColumns = new List<Column>();
+      List<Column> itemsColumns = [];
 
       for (int i = 0; i < _itemsOptions.length; i = i + 2) {
         Column column;
@@ -218,12 +211,12 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
 
   Widget _drawHomeOption(String picture, Type type) {
     return DragTarget<Item>(
-      builder: (BuildContext context, List<Item> incoming, List rejected) {
+      builder: (BuildContext context, List incoming, List rejected) {
         return Image.asset('images/$picture.png',
             width: _width, height: _height, fit: BoxFit.contain);
       },
       onWillAccept: (data) {
-        return data.type == type;
+        return data?.type == type;
       },
       onAccept: (data) {
         setState(() {

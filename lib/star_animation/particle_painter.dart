@@ -8,7 +8,7 @@ class ParticlePainter extends CustomPainter {
   Duration time;
   ui.Image starImage;
  // Random random = new Random();
-  List<ParticleModel> particlesToDispose = new List<ParticleModel>();
+  List<ParticleModel> particlesToDispose = [];
   ValueNotifier<bool> animationFinished;
 
   ParticlePainter(this.particles, this.time, this.starImage, this.animationFinished);

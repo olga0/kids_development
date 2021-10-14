@@ -20,23 +20,23 @@ class MatchingItemsPage extends StatefulWidget {
 
 class MatchingItemsPageState extends State<MatchingItemsPage>
     with SingleTickerProviderStateMixin {
-  Widget _pageContent;
+  late Widget _pageContent;
   bool _firstScreenLoaded = false;
-  double _width;
-  double _height;
-  Map<String, String> _optionsMap;
+  late double _width;
+  late double _height;
+  late Map<String, String> _optionsMap;
   Map<String, bool> _matched = {};
-  List<OptionPair> _optionPairsList = new List<OptionPair>();
-  List<String> _itemsToMatch = new List<String>();
-  List<String> _itemsToMatchWith = new List<String>();
+  List<OptionPair> _optionPairsList = [];
+  List<String> _itemsToMatch = [];
+  List<String> _itemsToMatchWith = [];
   int _optionsNumOnScreen = 4;
   int _screenNumber = 1;
   AudioPlayer _audioPlayer = AudioPlayer();
   bool _allItemsMatched = false;
-  int _numberOfScreens;
-  ValueNotifier<bool> _animationFinished;
-  Particles _particles;
-  FlutterTts _flutterTts;
+  late int _numberOfScreens;
+  late ValueNotifier<bool> _animationFinished;
+  late Particles _particles;
+  late FlutterTts _flutterTts;
 
   @override
   void initState() {
@@ -121,7 +121,7 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
   }
 
   Widget _drawOccupationsColumn() {
-    List<Widget> occupationPictures = new List<Widget>();
+    List<Widget> occupationPictures = [];
 
     for (int i = 0; i < _itemsToMatch.length; i++) {
       occupationPictures.add(SizedBox(width: 10, height: 20));
@@ -132,7 +132,7 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
   }
 
   Widget _drawVehiclesColumn() {
-    List<Widget> vehiclesPictures = new List<Widget>();
+    List<Widget> vehiclesPictures = [];
 
     for (int i = 0; i < _itemsToMatchWith.length; i++) {
       vehiclesPictures.add(SizedBox(width: 10, height: 20));

@@ -8,14 +8,14 @@ class LevelButton {
   Color borderColor, backgroundColor, highlightColor, textColor;
 
   LevelButton(
-      {@required this.context,
-        @required this.label,
-        @required this.route,
-        @required this.icon,
-        @required this.borderColor,
-        @required this.backgroundColor,
-        @required this.highlightColor,
-        @required this.textColor});
+      {required this.context,
+      required this.label,
+      required this.route,
+      required this.icon,
+      required this.borderColor,
+      required this.backgroundColor,
+      required this.highlightColor,
+      required this.textColor});
 
   RaisedButton draw() {
     return RaisedButton(

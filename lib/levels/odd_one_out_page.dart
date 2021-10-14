@@ -25,24 +25,24 @@ enum TtsState { playing, stopped }
 
 class OddOneOutPageState extends State<OddOneOutPage>
     with SingleTickerProviderStateMixin {
-  List<OptionsSet> _optionsSetList;
+  List<OptionsSet> _optionsSetList = [];
   int _questionNumber = 1;
   int _numberOfQuestions = 10;
-  List<OptionPicture> _optionPictures = new List<OptionPicture>();
+  List<OptionPicture> _optionPictures = [];
   List<bool> _picturesClicked = [false, false, false, false];
-  Widget _pageContent;
+  late Widget _pageContent;
   bool firstScreenLoaded = false;
-  double width;
-  double height;
-  Boolean isCorrectAnswerClicked;
+  late double width;
+  late double height;
+  late Boolean isCorrectAnswerClicked;
   AudioPlayer _audioPlayer = AudioPlayer();
-  FlutterTts flutterTts;
+  late FlutterTts flutterTts;
 
   TtsState ttsState = TtsState.stopped;
 
-  ValueNotifier<bool> _animationFinished;
+  late ValueNotifier<bool> _animationFinished;
 
-  Particles particles;
+  late Particles particles;
 
   @override
   void initState() {
@@ -361,11 +361,11 @@ class OptionPicture extends StatefulWidget {
 }
 
 class OptionPictureState extends State<OptionPicture> {
-  Widget child;
   AudioPlayer _audioPlayer = AudioPlayer();
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
     if (!widget._picturesClicked.elementAt(widget._index)) {
       child = Image.asset(
         widget._option.imageName,
