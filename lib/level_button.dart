@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LevelButton {
   BuildContext context;
   String label;
-  MaterialPageRoute route;
+  MaterialPageRoute? route;
   String icon;
   Color borderColor, backgroundColor, highlightColor, textColor;
 
@@ -20,7 +20,9 @@ class LevelButton {
   RaisedButton draw() {
     return RaisedButton(
       onPressed: () {
-        Navigator.push(context, route);
+        if (route != null) {
+          Navigator.push(context, route!);
+        }
       },
       child: Row(
         children: <Widget>[

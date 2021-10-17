@@ -29,8 +29,8 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  late String _chosenLanguage;
-  late String _localeLanguage;
+  String? _chosenLanguage;
+  String? _localeLanguage;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // variables for ad
@@ -47,8 +47,10 @@ class MainPageState extends State<MainPage> {
     _purchaseManager = new PurchaseManager(_setMainPageState, widget._prefs);
     _adsManager = new AdsManager();
 
-    _chosenLanguage = widget._prefs.get(Constants.CHOSEN_LANGUAGE_KEY);
-    _localeLanguage = widget._prefs.get(Constants.LOCALE_LANGUAGE_KEY);
+    _chosenLanguage =
+        widget._prefs.getString(Constants.CHOSEN_LANGUAGE_KEY) ?? '';
+    _localeLanguage =
+        widget._prefs.getString(Constants.LOCALE_LANGUAGE_KEY) ?? '';
     _isPurchaseDataInitializationFinished =
         _purchaseManager.initializePurchaseData();
     _adsManager.initAds();
@@ -92,11 +94,16 @@ class MainPageState extends State<MainPage> {
                   children: <Widget>[
                     LevelButton(
                             context: context,
-                            label: MyLocalizations.of(
-                                _chosenLanguage, StringKeys.oddOneOut),
-                            route: MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    OddOneOutPage(_chosenLanguage, _showAd)),
+                            label: _chosenLanguage == null
+                                ? ''
+                                : MyLocalizations.of(
+                                    _chosenLanguage!, StringKeys.oddOneOut),
+                            route: _chosenLanguage == null
+                                ? null
+                                : MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        OddOneOutPage(
+                                            _chosenLanguage!, _showAd)),
                             icon: 'images/odd_one_out_icon.png',
                             borderColor: Colors.green,
                             backgroundColor: (Colors.green[100])!,
@@ -217,8 +224,7 @@ class MainPageState extends State<MainPage> {
     ScaffoldState? state = _scaffoldKey.currentState;
     if (state != null) {
       _scaffoldKey.currentState!.showSnackBar(snackBar);
-    }
-    else {
+    } else {
       print('_scaffoldKey.currentState = null');
     }
   }
