@@ -78,9 +78,9 @@ class MyLocalizations {
 
   String translate(language, key) {
     if (language == 'ru')
-      return _localizedValues['ru'][key];
+      return _localizedValues['ru']?[key] ?? '';
     else
-      return _localizedValues['en'][key];
+      return _localizedValues['en']?[key] ?? '';
   }
 
   static String of(String language, String key) {

@@ -436,8 +436,8 @@ class OptionPictureState extends State<OptionPicture> {
 }
 
 class Option {
-  String imageName;
-  bool isCorrectAnswer;
+  late String imageName;
+  late bool isCorrectAnswer;
 
   Option(String imageName, bool isCorrectAnswer) {
     this.imageName = 'images/$imageName.png';

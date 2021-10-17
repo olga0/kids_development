@@ -177,9 +177,9 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
   }
 
   Widget _drawVehicleOption(String vehiclePicture) {
-    String occupationPicture = _optionsMap[vehiclePicture];
-    return DragTarget<String>(
-      builder: (BuildContext context, List<String> incoming, List rejected) {
+    String? occupationPicture = _optionsMap[vehiclePicture];
+    return occupationPicture == null ? Container() : DragTarget<String>(
+      builder: (BuildContext context, List<String?> incoming, List rejected) {
         if (_matched[occupationPicture] == true)
           return Stack(
             alignment: AlignmentDirectional.center,

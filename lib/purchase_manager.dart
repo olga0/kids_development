@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:collection/collection.dart';
 
 import 'const.dart';
 
@@ -17,7 +18,7 @@ class PurchaseManager {
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
 
   // Updates to purchases
-  StreamSubscription<List<PurchaseDetails>> _subscription;
+  late StreamSubscription<List<PurchaseDetails>> _subscription;
 
   // Product ID
   Set<String> _idSet = <String>[Constants.PRODUCT_ID].toSet();
@@ -32,7 +33,7 @@ class PurchaseManager {
   bool _isAvailable = false;
 
   bool _purchasePending = false;
-  String _queryProductError;
+  String? _queryProductError;
 
   Future<bool> initializePurchaseData() async {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
@@ -63,7 +64,7 @@ class PurchaseManager {
         await _inAppPurchase.queryProductDetails(_idSet);
 
     if (productDetailResponse.error != null) {
-      _queryProductError = productDetailResponse.error.message;
+      _queryProductError = productDetailResponse.error!.message;
       _isAvailable = isAvailable;
       return;
     }
@@ -129,16 +130,15 @@ class PurchaseManager {
   // }
 
   // Returns ads purchase
-  PurchaseDetails _getAdsPurchase(List<PurchaseDetails> purchaseDetailsList) {
-    return purchaseDetailsList.firstWhere(
-        (purchase) => _getPurchaseProductId(purchase) == Constants.PRODUCT_ID,
-        orElse: () => null);
+  PurchaseDetails? _getAdsPurchase(List<PurchaseDetails> purchaseDetailsList) {
+    return purchaseDetailsList.firstWhereOrNull(
+        (purchase) => _getPurchaseProductId(purchase) == Constants.PRODUCT_ID);
   }
 
   // Returns ads product
-  ProductDetails getAdsProduct() {
-    return _products.firstWhere((product) => product.id == Constants.PRODUCT_ID,
-        orElse: () => null);
+  ProductDetails? getAdsProduct() {
+    return _products
+        .firstWhereOrNull((product) => product.id == Constants.PRODUCT_ID);
   }
 
   String _getPurchaseProductId(PurchaseDetails purchase) {
@@ -194,7 +194,7 @@ class PurchaseManager {
 
   void _listenToPurchaseUpdated(
       List<PurchaseDetails> purchaseDetailsList) async {
-    PurchaseDetails purchaseDetails = _getAdsPurchase(purchaseDetailsList);
+    PurchaseDetails? purchaseDetails = _getAdsPurchase(purchaseDetailsList);
     if (purchaseDetails != null) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         // TODO show purchase error snack bar

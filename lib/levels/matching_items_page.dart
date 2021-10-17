@@ -182,10 +182,10 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
   }
 
   Widget _drawItemsToMatchWithOption(String itemToMatchWithPicture) {
-    String itemToMatchPicture = _optionsMap[itemToMatchWithPicture];
-    return DragTarget<String>(
-      builder: (BuildContext context, List<String> incoming, List rejected) {
-        if (_matched[itemToMatchPicture] == true)
+    String? itemToMatchPicture = _optionsMap[itemToMatchWithPicture];
+    return itemToMatchPicture == null ? Container() : DragTarget<String>(
+      builder: (BuildContext context, List<String?> incoming, List rejected) {
+        if (_matched[itemToMatchPicture] == true) {
           return Stack(
             alignment: AlignmentDirectional.center,
             children: <Widget>[
@@ -203,9 +203,10 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
               ),
             ],
           );
-        else
+        } else {
           return Image.asset('images/$itemToMatchWithPicture.png',
               width: _width, height: _height, fit: BoxFit.contain);
+        }
       },
       onWillAccept: (data) => data == itemToMatchPicture,
       onAccept: (data) {

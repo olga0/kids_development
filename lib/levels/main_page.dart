@@ -180,7 +180,7 @@ class MainPageState extends State<MainPage> {
   Widget _buildRemoveAdsButton() {
     // check if remove ads product was retrieved
     print('isAdRemoved = $_isAdRemoved');
-    ProductDetails prod = _purchaseManager.getAdsProduct();
+    ProductDetails? prod = _purchaseManager.getAdsProduct();
     if (prod == null) {
       _showSnackBar('Product was not found');
       return Container();

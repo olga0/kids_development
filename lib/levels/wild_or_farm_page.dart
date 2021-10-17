@@ -23,18 +23,18 @@ class WildOrFarmPage extends StatefulWidget {
 class WildOrFarmPageState extends State<WildOrFarmPage>
     with SingleTickerProviderStateMixin {
   bool _firstScreenLoaded = false;
-  double _width;
-  double _height;
+  late double _width;
+  late double _height;
   int _optionsNumOnScreen = 4;
   int _screenNumber = 1;
   AudioPlayer _audioPlayer = AudioPlayer();
   bool _allAnimalsFoundHome = false;
-  int _numberOfScreens;
-  ValueNotifier<bool> _animationFinished;
-  Particles _particles;
-  FlutterTts _flutterTts;
-  List<Animal> _animals = new List<Animal>();
-  List<Animal> _animalsOptions = new List<Animal>();
+  late int _numberOfScreens;
+  late ValueNotifier<bool> _animationFinished;
+  late Particles _particles;
+  late FlutterTts _flutterTts;
+  List<Animal> _animals = [];
+  List<Animal> _animalsOptions = [];
   Map<String, bool> _matched = {};
 
   @override
@@ -157,7 +157,7 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
 
   Widget _drawAnimalPart() {
     if (_animalsOptions.length > 0) {
-      List<Column> animalColumns = new List<Column>();
+      List<Column> animalColumns = [];
 
       for (int i = 0; i < _animalsOptions.length; i = i + 2) {
         Column column;
@@ -213,21 +213,18 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
 
   Widget _drawHomeOption(String picture, Type type) {
     return DragTarget<Animal>(
-      builder: (BuildContext context, List<Animal> incoming, List rejected) {
+      builder: (BuildContext context, List<Animal?> incoming, List rejected) {
         return Image.asset('images/$picture.png',
             width: _width, height: _height, fit: BoxFit.contain);
       },
       onWillAccept: (data) {
-        return data.type == type;
+        return data?.type == type;
       },
       onAccept: (data) {
         setState(() {
           _matched[data.name] = true;
           _allAnimalsFoundHome = (_matched.length == _optionsNumOnScreen);
-          if (_audioPlayer == null)
-            print('audioPlayer is null!!!!');
-          else
-            _playSound('sounds/correct.mp3');
+          _playSound('sounds/correct.mp3');
         });
       },
     );
