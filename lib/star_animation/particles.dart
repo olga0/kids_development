@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:kids_development/star_animation/particle_model.dart';
 import 'package:kids_development/star_animation/particle_painter.dart';
-import 'package:simple_animations/simple_animations/rendering.dart';
+import 'package:sa_v1_migration/sa_v1_migration.dart';
 
 class Particles extends StatefulWidget {
   final int numberOfParticles;

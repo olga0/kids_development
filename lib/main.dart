@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:kids_development/levels/main_page.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'const.dart';
 
 void main() {
@@ -23,6 +23,7 @@ void main() {
   runZonedGuarded<Future<void>>(() async {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
         .then((_) {
+      InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
       runApp(MyApp());
     });
   }, (Object error, StackTrace stack) {
@@ -92,8 +93,8 @@ class _MyAppState extends State<MyApp> {
     try {
       var languages = await Devicelocale.preferredLanguages;
       print('languages: $languages');
-      var preferredLanguage = languages[0];
-      print('preffered language: $preferredLanguage');
+      String preferredLanguage = languages?[0]?.toString() ?? 'en';
+      print('preferred language: $preferredLanguage');
       var languageCode = preferredLanguage[0] + preferredLanguage[1];
       print('language code: $languageCode');
       return languageCode;
@@ -106,7 +107,7 @@ class _MyAppState extends State<MyApp> {
   Future<SharedPreferences> _getSharedPrefsAndInitCrashlytics() async {
     await _initializeFlutterFire();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String chosenLanguage = prefs.get(Constants.CHOSEN_LANGUAGE_KEY);
+    String? chosenLanguage = prefs.getString(Constants.CHOSEN_LANGUAGE_KEY);
     String localeLanguage = await _getCurrentLocale();
     prefs.setString(Constants.LOCALE_LANGUAGE_KEY, localeLanguage);
 

@@ -224,7 +224,7 @@ class PurchaseManager {
     _purchases = [];
     _purchasePending = false;
 
-    bool isAdRemovedPref = _prefs.getBool(Constants.IS_AD_REMOVED_KEY);
+    bool? isAdRemovedPref = _prefs.getBool(Constants.IS_AD_REMOVED_KEY);
 
     if (isAdRemovedPref == null || isAdRemovedPref == false) {
       _setMainPageState(isAdsRemoved: false);

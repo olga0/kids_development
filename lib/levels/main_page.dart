@@ -29,8 +29,8 @@ class MainPage extends StatefulWidget {
 }
 
 class MainPageState extends State<MainPage> {
-  String? _chosenLanguage;
-  String? _localeLanguage;
+  late String _chosenLanguage;
+  late String _localeLanguage;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // variables for ad
@@ -94,16 +94,12 @@ class MainPageState extends State<MainPage> {
                   children: <Widget>[
                     LevelButton(
                             context: context,
-                            label: _chosenLanguage == null
-                                ? ''
-                                : MyLocalizations.of(
-                                    _chosenLanguage!, StringKeys.oddOneOut),
-                            route: _chosenLanguage == null
-                                ? null
-                                : MaterialPageRoute(
+                            label: MyLocalizations.of(
+                                    _chosenLanguage, StringKeys.oddOneOut),
+                            route: MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         OddOneOutPage(
-                                            _chosenLanguage!, _showAd)),
+                                            _chosenLanguage, _showAd)),
                             icon: 'images/odd_one_out_icon.png',
                             borderColor: Colors.green,
                             backgroundColor: (Colors.green[100])!,
