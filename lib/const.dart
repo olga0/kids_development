@@ -9,5 +9,5 @@ class Constants {
   static const String IS_AD_REMOVED_KEY = 'is ad removed';
 
   // In-app purchases
-  static const String PRODUCT_ID = 'remove_ads';
+  static const String PRODUCT_ID = 'com.olgam.kidsdevelopment.removeads';
 }

@@ -76,6 +76,12 @@ class PurchaseManager {
       return;
     }
 
+    _products = productDetailResponse.productDetails;
+    print('PRODUCTS:');
+    _products.forEach((product) {
+      print('product title: "${product.title}", product id: ${product.id}');
+    });
+
     await _inAppPurchase.restorePurchases();
   }
 
@@ -83,11 +89,7 @@ class PurchaseManager {
   Future<void> _getProducts() async {
     ProductDetailsResponse response =
         await _inAppPurchase.queryProductDetails(_idSet);
-    _products = response.productDetails;
-    print('PRODUCTS:');
-    _products.forEach((product) {
-      print('product title: "${product.title}", product id: ${product.id}');
-    });
+
   }
 
   // Gets past purchases
