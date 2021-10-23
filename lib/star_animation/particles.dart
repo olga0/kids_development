@@ -20,7 +20,7 @@ class Particles extends StatefulWidget {
 
 class _ParticlesState extends State<Particles> {
   final Random random = Random();
-  late ui.Image starImage;
+  ui.Image? starImage;
   final List<ParticleModel> particles = [];
 
   @override
@@ -39,7 +39,7 @@ class _ParticlesState extends State<Particles> {
         return starImage == null
             ? Container()
             : CustomPaint(
-                painter: ParticlePainter(particles, time, starImage, widget.animationFinished),
+                painter: ParticlePainter(particles, time, starImage!, widget.animationFinished),
               );
       },
     );
