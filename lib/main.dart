@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'dart:async';
 
 import 'package:devicelocale/devicelocale.dart';
@@ -12,13 +14,6 @@ import 'const.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
-//  runZoned<Future<void>>(() async {
-//    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-//    .then((_) {
-//      runApp(MyApp());
-//    });
-//  }, onError: Crashlytics.instance.recordError);
 
   runZonedGuarded<Future<void>>(() async {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
@@ -37,7 +32,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late Future<SharedPreferences> _prefs;
+  Future<SharedPreferences> _prefs;
 
   @override
   void initState() {
@@ -58,7 +53,7 @@ class _MyAppState extends State<MyApp> {
         builder: (BuildContext context,
             AsyncSnapshot<SharedPreferences> snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            return MainPage(snapshot.data!);
+            return MainPage(snapshot.data);
           } else {
             return Scaffold(
                 appBar: AppBar(
@@ -93,7 +88,7 @@ class _MyAppState extends State<MyApp> {
     try {
       var languages = await Devicelocale.preferredLanguages;
       print('languages: $languages');
-      String preferredLanguage = languages?[0]?.toString() ?? 'en';
+      String preferredLanguage = languages[0]?.toString() ?? 'en';
       print('preferred language: $preferredLanguage');
       var languageCode = preferredLanguage[0] + preferredLanguage[1];
       print('language code: $languageCode');
@@ -107,7 +102,7 @@ class _MyAppState extends State<MyApp> {
   Future<SharedPreferences> _getSharedPrefsAndInitCrashlytics() async {
     await _initializeFlutterFire();
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? chosenLanguage = prefs.getString(Constants.CHOSEN_LANGUAGE_KEY);
+    String chosenLanguage = prefs.getString(Constants.CHOSEN_LANGUAGE_KEY);
     String localeLanguage = await _getCurrentLocale();
     prefs.setString(Constants.LOCALE_LANGUAGE_KEY, localeLanguage);
 
