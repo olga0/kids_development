@@ -26,13 +26,9 @@ class PurchaseManager {
   // Products for sale
   List<ProductDetails> _products = [];
 
-  // Past purchases
-  List<PurchaseDetails> _purchases = [];
-
   // Is the API available on the device
   bool _isAvailable = false;
 
-  bool _purchasePending = false;
   String? _queryProductError;
 
   Future<bool> initializePurchaseData() async {
@@ -85,52 +81,6 @@ class PurchaseManager {
     await _inAppPurchase.restorePurchases();
   }
 
-  // Get all products available for sale
-  Future<void> _getProducts() async {
-    ProductDetailsResponse response =
-        await _inAppPurchase.queryProductDetails(_idSet);
-
-  }
-
-  // Gets past purchases
-  // Future<void> _getPastPurchases() async {
-  //   await _inAppPurchase.restorePurchases();
-  //
-  //   // for (PurchaseDetails purchase in response.pastPurchases) {
-  //   // if (Platform.isIOS) {
-  //   // InAppPurchase.instance.completePurchase(purchase);
-  //   // }
-  //   // }
-  //   // print('purchase response is: $response');
-  //   // print('purchase response pastPurchases: ${response.pastPurchases}');
-  //   // print('purchase response error: ${response.error}');
-  //   // if (response.error != null) print ('error message: ${response.error.message}');
-  //   // _purchases = response.pastPurchases;
-  //   //
-  //   // if (response.pastPurchases == null) {
-  //   // print('response.pastPurchases = NULL');
-  //   // } else {
-  //   // print('purchase response pastPurchases length: ${response.pastPurchases.length}');
-  //   // }
-  //   //
-  //   // if (Platform.isAndroid) {
-  //   // print('PURCHASES:');
-  //   // _purchases.forEach((purchase) {
-  //   // print(
-  //   // 'purchase id: ${purchase.status}, purchase status: ${purchase
-  //   //     .status}');
-  //   // var purchaseData = purchase.verificationData.localVerificationData;
-  //   // var purchaseDataDecoded = jsonDecode(
-  //   // purchase.verificationData.localVerificationData);
-  //   // print('purchase data: $purchaseData');
-  //   // var purchaseId = purchaseDataDecoded["orderId"];
-  //   // var purchaseProductId = purchaseDataDecoded["productId"];
-  //   // var purchaseStatus = purchaseDataDecoded["purchaseState"];
-  //   // print('purchaseId: $purchaseId, purchaseProductId: $purchaseProductId, purchaseStatus: $purchaseStatus');
-  //   // });
-  //   // }
-  // }
-
   // Returns ads purchase
   PurchaseDetails? _getAdsPurchase(List<PurchaseDetails> purchaseDetailsList) {
     return purchaseDetailsList.firstWhereOrNull(
@@ -179,20 +129,7 @@ class PurchaseManager {
   void buyProduct(ProductDetails prod) {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: prod);
     _inAppPurchase.buyNonConsumable(purchaseParam: purchaseParam);
-//    _connection.buyConsumable(purchaseParam: purchaseParam, autoConsume: false);
   }
-
-  /// Consume purchase
-// void consume(PurchaseDetails purchase) async {
-//   // Bring ads back
-//   _setMainPageState(isAdsRemoved: false);
-//   _prefs.setBool(Constants.IS_AD_REMOVED_KEY, false);
-//
-//   // Mark purchase consumed
-//   BillingResponse res = await _inAppPurchase.consumePurchase(purchase);
-//   print('Result of consuming is $res');
-//   await _getPastPurchases();
-// }
 
   void _listenToPurchaseUpdated(
       List<PurchaseDetails> purchaseDetailsList) async {
@@ -223,8 +160,6 @@ class PurchaseManager {
 
   void _updateUIIfBillingNotAvailable() {
     _products = [];
-    _purchases = [];
-    _purchasePending = false;
 
     bool? isAdRemovedPref = _prefs.getBool(Constants.IS_AD_REMOVED_KEY);
 
