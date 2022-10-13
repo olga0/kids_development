@@ -95,11 +95,10 @@ class MainPageState extends State<MainPage> {
                     LevelButton(
                             context: context,
                             label: MyLocalizations.of(
-                                    _chosenLanguage, StringKeys.oddOneOut),
+                                _chosenLanguage, StringKeys.oddOneOut),
                             route: MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        OddOneOutPage(
-                                            _chosenLanguage, _showAd)),
+                                builder: (BuildContext context) =>
+                                    OddOneOutPage(_chosenLanguage, _showAd)),
                             icon: 'images/odd_one_out_icon.png',
                             borderColor: Colors.green,
                             backgroundColor: (Colors.green[100])!,
@@ -185,7 +184,7 @@ class MainPageState extends State<MainPage> {
     print('isAdRemoved = $_isAdRemoved');
     ProductDetails? prod = _purchaseManager.getAdsProduct();
     if (prod == null) {
-      _showSnackBar('Product was not found');
+      print('Product was not found');
       return Container();
     } else {
       if (_isAdRemoved) {
@@ -194,7 +193,7 @@ class MainPageState extends State<MainPage> {
       }
       // UI if NOT purchased
       else {
-        return RaisedButton(
+        return ElevatedButton(
           onPressed: () {
             var context = _scaffoldKey.currentContext;
             if (context != null) {
@@ -204,24 +203,14 @@ class MainPageState extends State<MainPage> {
           child: Text(
               MyLocalizations.of(_localeLanguage, StringKeys.marketDialogTitle),
               style: TextStyle(fontSize: 20, color: Colors.white)),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(color: Colors.purple)),
-          color: Colors.purple,
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: BorderSide(color: Colors.purple)),
+            backgroundColor: Colors.purple,
+          ),
         );
       }
-    }
-  }
-
-  void _showSnackBar(String message) {
-    final snackBar = SnackBar(
-      content: Text(message),
-    );
-    ScaffoldState? state = _scaffoldKey.currentState;
-    if (state != null) {
-      _scaffoldKey.currentState!.showSnackBar(snackBar);
-    } else {
-      print('_scaffoldKey.currentState = null');
     }
   }
 
@@ -284,7 +273,7 @@ class MainPageState extends State<MainPage> {
           MyLocalizations.of(_localeLanguage, StringKeys.marketDialogTitle)),
       content: Text(text),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
             child: Text(
               MyLocalizations.of(
                   _localeLanguage, StringKeys.marketDialogNegButLabel),
@@ -293,7 +282,7 @@ class MainPageState extends State<MainPage> {
             onPressed: () {
               Navigator.of(context).pop();
             }),
-        FlatButton(
+        TextButton(
             child: Text(
               MyLocalizations.of(
                   _localeLanguage, StringKeys.marketDialogPosButLabel),

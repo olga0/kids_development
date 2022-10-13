@@ -54,20 +54,11 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
       _height = MediaQuery.of(context).size.height * 0.17;
       _pageContent = _buildPageContent();
       _firstScreenLoaded = true;
-
-      if (_flutterTts != null)
-        _speak();
-      else
-        print('tts = null');
+      _speak();
     }
 
-    if (_pageContent == null) print('page content is null');
-
     if (_screenNumber == _numberOfScreens && _allItemsMatched) {
-      if (_audioPlayer == null)
-        print('audioPlayer is null!!!!');
-      else
-        _playSound('sounds/you_win.mp3');
+      _playSound('sounds/you_win.mp3');
     }
 
     Widget body;
@@ -182,43 +173,43 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
 
   Widget _drawItemsToMatchWithOption(String itemToMatchWithPicture) {
     String? itemToMatchPicture = _optionsMap[itemToMatchWithPicture];
-    return itemToMatchPicture == null ? Container() : DragTarget<String>(
-      builder: (BuildContext context, List<String?> incoming, List rejected) {
-        if (_matched[itemToMatchPicture] == true) {
-          return Stack(
-            alignment: AlignmentDirectional.center,
-            children: <Widget>[
-              Image.asset(
-                'images/$itemToMatchWithPicture.png',
-                width: _width,
-                height: _height,
-                fit: BoxFit.contain,
-              ),
-              Image.asset(
-                'images/$itemToMatchPicture.png',
-                width: _width,
-                height: _height,
-                fit: BoxFit.contain,
-              ),
-            ],
+    return itemToMatchPicture == null
+        ? Container()
+        : DragTarget<String>(
+            builder:
+                (BuildContext context, List<String?> incoming, List rejected) {
+              if (_matched[itemToMatchPicture] == true) {
+                return Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'images/$itemToMatchWithPicture.png',
+                      width: _width,
+                      height: _height,
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      'images/$itemToMatchPicture.png',
+                      width: _width,
+                      height: _height,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
+                );
+              } else {
+                return Image.asset('images/$itemToMatchWithPicture.png',
+                    width: _width, height: _height, fit: BoxFit.contain);
+              }
+            },
+            onWillAccept: (data) => data == itemToMatchPicture,
+            onAccept: (data) {
+              setState(() {
+                _matched[itemToMatchPicture] = true;
+                _allItemsMatched = (_matched.length == _optionsNumOnScreen);
+                  _playSound('sounds/correct.mp3');
+              });
+            },
           );
-        } else {
-          return Image.asset('images/$itemToMatchWithPicture.png',
-              width: _width, height: _height, fit: BoxFit.contain);
-        }
-      },
-      onWillAccept: (data) => data == itemToMatchPicture,
-      onAccept: (data) {
-        setState(() {
-          _matched[itemToMatchPicture] = true;
-          _allItemsMatched = (_matched.length == _optionsNumOnScreen);
-          if (_audioPlayer == null)
-            print('audioPlayer is null!!!!');
-          else
-            _playSound('sounds/correct.mp3');
-        });
-      },
-    );
   }
 
   void _loadNextScreen() {
@@ -247,7 +238,7 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 
   initTts() {

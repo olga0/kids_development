@@ -56,7 +56,7 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
     }
 
     if (_screenNumber == _numberOfScreens && _allItemsSorted) {
-        _playSound('sounds/you_win.mp3');
+      _playSound('sounds/you_win.mp3');
     }
 
     Widget body;
@@ -80,8 +80,8 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
       child: Scaffold(
         appBar: AppBar(
           title: FittedBox(
-            child: Text(
-                MyLocalizations.of(widget._locale, StringKeys.edibleOrNotEdible)),
+            child: Text(MyLocalizations.of(
+                widget._locale, StringKeys.edibleOrNotEdible)),
             fit: BoxFit.scaleDown,
           ),
         ),
@@ -89,9 +89,9 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.play_arrow),
           backgroundColor:
-          (_screenNumber == _numberOfScreens || !_allItemsSorted)
-              ? Colors.grey
-              : Colors.amber,
+              (_screenNumber == _numberOfScreens || !_allItemsSorted)
+                  ? Colors.grey
+                  : Colors.amber,
           onPressed: () {
             if (_screenNumber < _numberOfScreens && _allItemsSorted) {
               _loadNextScreen();
@@ -125,8 +125,8 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
     _itemsOptions.clear();
 
     for (int i = (_screenNumber - 1) * _optionsNumOnScreen;
-    i < _screenNumber * _optionsNumOnScreen;
-    i++) {
+        i < _screenNumber * _optionsNumOnScreen;
+        i++) {
       _itemsOptions.add(_items[i]);
     }
 
@@ -145,10 +145,7 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
   Widget _drawPageContent() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        _drawItemsPart(),
-        _drawHomePart()
-      ],
+      children: <Widget>[_drawItemsPart(), _drawHomePart()],
     );
   }
 
@@ -178,8 +175,8 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: itemsColumns,
       );
-    }
-    else return Container();
+    } else
+      return Container();
   }
 
   Widget _drawHomePart() {
@@ -221,10 +218,7 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
         setState(() {
           _matched[data.name] = true;
           _allItemsSorted = (_matched.length == _optionsNumOnScreen);
-          if (_audioPlayer == null)
-            print('audioPlayer is null!!!!');
-          else
-            _playSound('sounds/correct.mp3');
+          _playSound('sounds/correct.mp3');
         });
       },
     );
@@ -249,12 +243,12 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 
   Future _speak() async {
-    var result = await _flutterTts
-        .speak(MyLocalizations.of(widget._locale, StringKeys.edibleOrNotEdibleTask));
+    var result = await _flutterTts.speak(
+        MyLocalizations.of(widget._locale, StringKeys.edibleOrNotEdibleTask));
     if (result == 1) setState(() => {});
   }
 

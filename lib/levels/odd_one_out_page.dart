@@ -68,21 +68,12 @@ class OddOneOutPageState extends State<OddOneOutPage>
       height = MediaQuery.of(context).size.height * 0.3;
       _pageContent = _buildPageContent();
       firstScreenLoaded = true;
-
-      if (flutterTts != null)
-        _speak();
-      else
-        print('tts = null');
+      _speak();
     }
-
-    if (_pageContent == null) print('page content is null');
 
     Widget body;
     if (_questionNumber == _numberOfQuestions && isCorrectAnswerClicked.value) {
-      if (_audioPlayer == null)
-        print('audioPlayer is null!!!!');
-      else
-        _playSound('sounds/you_win.mp3');
+      _playSound('sounds/you_win.mp3');
 
       body = Stack(
         children: <Widget>[
@@ -171,7 +162,7 @@ class OddOneOutPageState extends State<OddOneOutPage>
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 
   Widget _buildPageContent() {
@@ -416,21 +407,13 @@ class OptionPictureState extends State<OptionPicture> {
         String sound = (widget._option.isCorrectAnswer)
             ? 'sounds/correct.mp3'
             : 'sounds/incorrect.mp3';
-
-        if (sound == null)
-          print('sound is null!!!!');
-        else {
-          if (_audioPlayer == null)
-            print('audioPlayer is null!!!!');
-          else
-            _playSound(sound);
-        }
+        _playSound(sound);
       });
     }
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 }
 

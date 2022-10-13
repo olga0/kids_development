@@ -33,7 +33,7 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
   AudioPlayer _audioPlayer = AudioPlayer();
   bool _allPersonsInVehicles = false;
   late int _numberOfScreens;
-  late ValueNotifier<bool>_animationFinished;
+  late ValueNotifier<bool> _animationFinished;
   late Particles _particles;
   late FlutterTts _flutterTts;
 
@@ -54,18 +54,11 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
       _height = MediaQuery.of(context).size.height * 0.17;
       _pageContent = _buildPageContent();
       _firstScreenLoaded = true;
-
-      if (_flutterTts != null) _speak();
-      else print('tts = null');
+      _speak();
     }
 
-    if (_pageContent == null) print('page content is null');
-
     if (_screenNumber == _numberOfScreens && _allPersonsInVehicles) {
-      if (_audioPlayer == null)
-        print('audioPlayer is null!!!!');
-      else
-        _playSound('sounds/you_win.mp3');
+      _playSound('sounds/you_win.mp3');
     }
 
     Widget body;
@@ -88,20 +81,20 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(MyLocalizations.of(widget._locale, StringKeys.occupationsAndVehicles)),
+          title: Text(MyLocalizations.of(
+              widget._locale, StringKeys.occupationsAndVehicles)),
         ),
         //body: OptionsScreenPart(_optionPictures, _optionsSetList, width, height,
         //   _questionNumber, _handleRightAnswerTap, _picturesClicked, _controller),
         body: body,
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.play_arrow),
-          backgroundColor: (_screenNumber == _numberOfScreens ||
-              !_allPersonsInVehicles)
-              ? Colors.grey
-              : Colors.amber,
+          backgroundColor:
+              (_screenNumber == _numberOfScreens || !_allPersonsInVehicles)
+                  ? Colors.grey
+                  : Colors.amber,
           onPressed: () {
-            if (_screenNumber < _numberOfScreens &&
-                _allPersonsInVehicles) {
+            if (_screenNumber < _numberOfScreens && _allPersonsInVehicles) {
               _loadNextScreen();
             }
           },
@@ -141,28 +134,31 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
 
   void _fillData() {
     _optionsMap = {
-      'ambulance' : 'doctor',
-      'tractor' : 'farmer',
-      'firetruck' : 'firefighter',
-      'police_car' : 'policeman',
-      'plane' : 'pilot',
-      'rocket' : 'astronaut',
-      'ship' : 'sailor',
-      'bulldozer' : 'construction_worker',
-      'post_van' : 'postman',
-      'race_car' : 'racer',
-      'sleigh' : 'santa',
-      'tank' : 'soldier'
+      'ambulance': 'doctor',
+      'tractor': 'farmer',
+      'firetruck': 'firefighter',
+      'police_car': 'policeman',
+      'plane': 'pilot',
+      'rocket': 'astronaut',
+      'ship': 'sailor',
+      'bulldozer': 'construction_worker',
+      'post_van': 'postman',
+      'race_car': 'racer',
+      'sleigh': 'santa',
+      'tank': 'soldier'
     };
 
-    _optionsMap.forEach((vehicle, occupation) => _optionPairsList.add(OptionPair(vehicle, occupation)));
+    _optionsMap.forEach((vehicle, occupation) =>
+        _optionPairsList.add(OptionPair(vehicle, occupation)));
     _optionPairsList.shuffle();
 
     _fillOccupationsAndVehicles();
   }
 
   Widget _drawOccupationChoice(String picture) {
-    String image = _matched[picture] == true ? 'images/checkmark.png' : 'images/$picture.png';
+    String image = _matched[picture] == true
+        ? 'images/checkmark.png'
+        : 'images/$picture.png';
     int maxSimultaneousDrags = _matched[picture] == true ? 0 : 1;
     return Draggable<String>(
       data: picture,
@@ -177,41 +173,43 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
 
   Widget _drawVehicleOption(String vehiclePicture) {
     String? occupationPicture = _optionsMap[vehiclePicture];
-    return occupationPicture == null ? Container() : DragTarget<String>(
-      builder: (BuildContext context, List<String?> incoming, List rejected) {
-        if (_matched[occupationPicture] == true)
-          return Stack(
-            alignment: AlignmentDirectional.center,
-            children: <Widget>[
-              Image.asset(
-                'images/$vehiclePicture.png',
-                width: _width,
-                height: _height,
-                fit: BoxFit.contain,
-              ),
-              Image.asset(
-                'images/$occupationPicture.png',
-                width: _width,
-                height: _height,
-                fit: BoxFit.contain,
-              ),
-            ],
+    return occupationPicture == null
+        ? Container()
+        : DragTarget<String>(
+            builder:
+                (BuildContext context, List<String?> incoming, List rejected) {
+              if (_matched[occupationPicture] == true)
+                return Stack(
+                  alignment: AlignmentDirectional.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'images/$vehiclePicture.png',
+                      width: _width,
+                      height: _height,
+                      fit: BoxFit.contain,
+                    ),
+                    Image.asset(
+                      'images/$occupationPicture.png',
+                      width: _width,
+                      height: _height,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
+                );
+              else
+                return Image.asset('images/$vehiclePicture.png',
+                    width: _width, height: _height, fit: BoxFit.contain);
+            },
+            onWillAccept: (data) => data == occupationPicture,
+            onAccept: (data) {
+              setState(() {
+                _matched[occupationPicture] = true;
+                _allPersonsInVehicles =
+                    (_matched.length == _optionsNumOnScreen);
+                  _playSound('sounds/correct.mp3');
+              });
+            },
           );
-        else return Image.asset('images/$vehiclePicture.png',
-            width: _width, height: _height, fit: BoxFit.contain);
-      },
-      onWillAccept: (data) => data == occupationPicture,
-      onAccept: (data) {
-        setState(() {
-          _matched[occupationPicture] = true;
-          _allPersonsInVehicles = (_matched.length == _optionsNumOnScreen);
-          if (_audioPlayer == null)
-            print('audioPlayer is null!!!!');
-          else
-            _playSound('sounds/correct.mp3');
-        });
-      },
-    );
   }
 
   void _loadNextScreen() {
@@ -228,7 +226,9 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
     _occupations.clear();
     _vehicles.clear();
 
-    for (int i = (_screenNumber - 1) * _optionsNumOnScreen; i < _screenNumber * _optionsNumOnScreen; i++) {
+    for (int i = (_screenNumber - 1) * _optionsNumOnScreen;
+        i < _screenNumber * _optionsNumOnScreen;
+        i++) {
       _occupations.add(_optionPairsList[i].occupation);
       _vehicles.add(_optionPairsList[i].vehicle);
     }
@@ -238,16 +238,14 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 
   initTts() {
-    _flutterTts = FlutterTts()
-      ..setSpeechRate(0.8);
+    _flutterTts = FlutterTts()..setSpeechRate(0.8);
 
     _flutterTts.setStartHandler(() {
-      setState(() {
-      });
+      setState(() {});
     });
 
     _flutterTts.setCompletionHandler(() {
@@ -257,13 +255,13 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
     });
 
     _flutterTts.setErrorHandler((msg) {
-      setState(() {
-      });
+      setState(() {});
     });
   }
 
   Future _speak() async {
-    var result = await _flutterTts.speak(MyLocalizations.of(widget._locale, StringKeys.occupationsAndVehiclesTask));
+    var result = await _flutterTts.speak(MyLocalizations.of(
+        widget._locale, StringKeys.occupationsAndVehiclesTask));
     if (result == 1) setState(() => {});
   }
 

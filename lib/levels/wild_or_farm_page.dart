@@ -52,19 +52,12 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
       _width = MediaQuery.of(context).size.width * 0.4;
       _height = MediaQuery.of(context).size.height * 0.25;
       _firstScreenLoaded = true;
-
-      if (_flutterTts != null) {
-        print('----call speak-----');
-        _speak();
-      } else
-        print('tts = null');
+      print('----call speak-----');
+      _speak();
     }
 
     if (_screenNumber == _numberOfScreens && _allAnimalsFoundHome) {
-      if (_audioPlayer == null)
-        print('audioPlayer is null!!!!');
-      else
-        _playSound('sounds/you_win.mp3');
+      _playSound('sounds/you_win.mp3');
     }
 
     Widget body;
@@ -249,7 +242,7 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
   }
 
   Future _playSound(String soundName) async {
-    _audioPlayer = await AudioCache().play(soundName);
+    await _audioPlayer.play(AssetSource(soundName));
   }
 
   Future _speak() async {

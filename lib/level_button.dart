@@ -17,8 +17,8 @@ class LevelButton {
       required this.highlightColor,
       required this.textColor});
 
-  RaisedButton draw() {
-    return RaisedButton(
+  ElevatedButton draw() {
+    return ElevatedButton(
       onPressed: () {
         if (route != null) {
           Navigator.push(context, route!);
@@ -44,12 +44,13 @@ class LevelButton {
           ),
         ],
       ),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide(color: borderColor, width: 2.0)),
-      color: backgroundColor,
-      highlightColor: highlightColor,
-      textColor: textColor,
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            side: BorderSide(color: borderColor, width: 2.0)),
+        backgroundColor: backgroundColor,
+        foregroundColor: textColor,
+      ),
     );
   }
 }
