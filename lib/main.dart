@@ -6,19 +6,23 @@ import 'package:devicelocale/devicelocale.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kids_development/levels/main_page.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'const.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  RequestConfiguration requestConfiguration = RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes);
+  MobileAds.instance
+    ..updateRequestConfiguration(requestConfiguration)
+    ..initialize();
 
   runZonedGuarded<Future<void>>(() async {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
         .then((_) {
-      InAppPurchaseAndroidPlatformAddition.enablePendingPurchases();
       runApp(MyApp());
     });
   }, (Object error, StackTrace stack) {

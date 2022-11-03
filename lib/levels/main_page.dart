@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:firebase_admob/firebase_admob.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:kids_development/ads_manager.dart';
@@ -43,7 +42,6 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: Constants.APP_ID);
     _purchaseManager = new PurchaseManager(_setMainPageState, widget._prefs);
     _adsManager = new AdsManager();
 
@@ -53,7 +51,7 @@ class MainPageState extends State<MainPage> {
         widget._prefs.getString(Constants.LOCALE_LANGUAGE_KEY) ?? '';
     _isPurchaseDataInitializationFinished =
         _purchaseManager.initializePurchaseData();
-    _adsManager.initAds();
+    _adsManager.loadAds();
 
     super.initState();
   }

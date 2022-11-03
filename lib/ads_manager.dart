@@ -1,4 +1,4 @@
-import 'package:firebase_admob/firebase_admob.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import 'const.dart';
 
@@ -6,29 +6,56 @@ import 'const.dart';
 class AdsManager {
   InterstitialAd? _interstitialAd;
   int _counter = 0;
-  static const MobileAdTargetingInfo targetingInfo = MobileAdTargetingInfo(
-      testDevices: ['XT1526'],
-      childDirected: true,
-      keywords: ['Games', 'Puzzles', 'Kids']);
+  int _attemptsToLoad = 0;
+  bool _isAdLoaded = false;
 
-  InterstitialAd _buildInterstitial() {
-    return InterstitialAd(
-      adUnitId: Constants.UNIT_ID,
-      targetingInfo: targetingInfo,
-      listener: (MobileAdEvent event) {
-        print("InterstitialAd event $event");
-        if (event == MobileAdEvent.failedToLoad) {
-          print('Trying to reload add');
-          _interstitialAd?.load();
-        } else if (event == MobileAdEvent.closed) {
-          _interstitialAd = _buildInterstitial()..load();
-        }
-      },
-    );
+  static const AdRequest request =
+  AdRequest(keywords: ['Games', 'Puzzles', 'Kids']);
+
+  void loadAds() async {
+    if (!_isAdLoaded) {
+      return InterstitialAd.load(
+          adUnitId: Constants.UNIT_ID,
+          request: request,
+          adLoadCallback: InterstitialAdLoadCallback(
+              onAdLoaded: onAdLoaded,
+              onAdFailedToLoad: (error) {
+                print('InterstitialAd failed to load: $error');
+                _attemptsToLoad += 1;
+                _interstitialAd = null;
+                if (_attemptsToLoad < 2) {
+                  loadAds();
+                }
+              }));
+    }
   }
 
-  void initAds() {
-    if (_interstitialAd == null) _interstitialAd = _buildInterstitial();
+  void onAdLoaded(InterstitialAd ad) {
+    print('ad loaded');
+    _interstitialAd = ad;
+    _attemptsToLoad = 0;
+    _interstitialAd?.setImmersiveMode(true);
+    _isAdLoaded = true;
+    _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent.');
+        ad.dispose();
+        _isAdLoaded = false;
+        loadAds();
+      },
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+        ad.dispose();
+        _isAdLoaded = false;
+        loadAds();
+      },
+      onAdClicked: (InterstitialAd ad) {
+        print('$ad onAdClicked.');
+        ad.dispose();
+        _isAdLoaded = false;
+        loadAds();
+      },
+    );
   }
 
   void disposeAds() {
@@ -36,15 +63,16 @@ class AdsManager {
   }
 
   Future<void> showAds() async {
-    if (_interstitialAd != null) {
+    print('showAds()');
+    if (_interstitialAd != null && _isAdLoaded) {
       _counter++;
-      bool result = await _interstitialAd!.load();
-
-      if (result && _counter > 1) {
-        _interstitialAd?.show();
+      print('counter = $_counter');
+      if (_counter > 1) {
+        _interstitialAd!.show();
+        _interstitialAd = null;
       }
-//        ..load()
-//        ..show();
+    } else {
+      loadAds();
     }
   }
 }
