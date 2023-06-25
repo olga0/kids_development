@@ -33,17 +33,16 @@ class _ParticlesState extends State<Particles> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Rendering(
-      builder: (context, time) {
-        return starImage == null
-            ? Container()
-            : CustomPaint(
-                painter: ParticlePainter(particles, time, starImage!, widget.animationFinished),
-              );
-      },
-    );
-  }
+  Widget build(BuildContext context) => Rendering(
+        builder: (context, time) {
+          return starImage == null
+              ? Container()
+              : CustomPaint(
+                  painter: ParticlePainter(
+                      particles, time, starImage!, widget.animationFinished),
+                );
+        },
+      );
 
   Future<void> _loadStarImage() async {
     ByteData data = await rootBundle.load('images/star.png');

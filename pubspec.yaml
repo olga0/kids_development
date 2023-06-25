@@ -33,6 +33,12 @@ dependencies:
   in_app_purchase: ^3.0.7
   shared_preferences: ^2.0.8
   collection: ^1.15.0
+  flutter_bloc:
+  provider:
+  freezed_annotation: ^2.2.0
+  freezed: ^2.3.2
+  build_runner: ^2.4.5
+  json_serializable:
 
 dev_dependencies:
   flutter_test:

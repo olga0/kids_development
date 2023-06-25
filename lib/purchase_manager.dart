@@ -26,6 +26,10 @@ class PurchaseManager {
   // Products for sale
   List<ProductDetails> _products = [];
 
+  final _purchaseStateStreamController = StreamController<bool>.broadcast();
+
+  Stream<bool> get purchaseStateStream => _purchaseStateStreamController.stream;
+
   Future<bool> initializePurchaseData() async {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
@@ -98,10 +102,12 @@ class PurchaseManager {
         (purchaseDataDecoded["purchaseState"] == 0)) {
       // purchased
       _setMainPageState(isAdsRemoved: true);
+      _purchaseStateStreamController.add(true);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, true);
     } else {
       // not purchased
       _setMainPageState(isAdsRemoved: false);
+      _purchaseStateStreamController.add(false);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, false);
     }
   }
@@ -117,11 +123,9 @@ class PurchaseManager {
     PurchaseDetails? purchaseDetails = _getAdsPurchase(purchaseDetailsList);
     if (purchaseDetails != null) {
       if (purchaseDetails.status == PurchaseStatus.pending) {
-        // TODO show purchase error snack bar
         _updateUIIfBillingNotAvailable();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
-          // TODO show purchase error snack bar
           _updateUIIfBillingNotAvailable();
         } else if (purchaseDetails.status == PurchaseStatus.purchased ||
             purchaseDetails.status == PurchaseStatus.restored) {
@@ -146,8 +150,10 @@ class PurchaseManager {
 
     if (isAdRemovedPref == null || isAdRemovedPref == false) {
       _setMainPageState(isAdsRemoved: false);
+      _purchaseStateStreamController.add(false);
     } else {
       _setMainPageState(isAdsRemoved: true);
+      _purchaseStateStreamController.add(true);
     }
   }
 }
