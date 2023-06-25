@@ -52,7 +52,6 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
       _width = MediaQuery.of(context).size.width * 0.4;
       _height = MediaQuery.of(context).size.height * 0.25;
       _firstScreenLoaded = true;
-      print('----call speak-----');
       _speak();
     }
 
@@ -231,9 +230,7 @@ class WildOrFarmPageState extends State<WildOrFarmPage>
     });
 
     _flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-      });
+      setState(() {});
     });
 
     _flutterTts.setErrorHandler((msg) {

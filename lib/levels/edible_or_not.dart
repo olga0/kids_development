@@ -232,9 +232,7 @@ class EdibleOrNotPageState extends State<EdibleOrNotPage>
     });
 
     _flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-      });
+      setState(() {});
     });
 
     _flutterTts.setErrorHandler((msg) {

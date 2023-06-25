@@ -19,7 +19,6 @@ class OccupationsAndVehiclesPage extends StatefulWidget {
 
 class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
     with SingleTickerProviderStateMixin {
-  late Widget _pageContent;
   bool _firstScreenLoaded = false;
   late double _width;
   late double _height;
@@ -52,7 +51,6 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
     if (!_firstScreenLoaded) {
       _width = MediaQuery.of(context).size.width * 0.4;
       _height = MediaQuery.of(context).size.height * 0.17;
-      _pageContent = _buildPageContent();
       _firstScreenLoaded = true;
       _speak();
     }
@@ -218,7 +216,6 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
       _matched.clear();
       _allPersonsInVehicles = false;
       _fillOccupationsAndVehicles();
-      _pageContent = _buildPageContent();
     });
   }
 
@@ -249,9 +246,7 @@ class OccupationsAndVehiclesPageState extends State<OccupationsAndVehiclesPage>
     });
 
     _flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-      });
+      setState(() {});
     });
 
     _flutterTts.setErrorHandler((msg) {

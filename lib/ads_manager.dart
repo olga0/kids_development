@@ -20,7 +20,6 @@ class AdsManager {
           adLoadCallback: InterstitialAdLoadCallback(
               onAdLoaded: onAdLoaded,
               onAdFailedToLoad: (error) {
-                print('InterstitialAd failed to load: $error');
                 _attemptsToLoad += 1;
                 _interstitialAd = null;
                 if (_attemptsToLoad < 2) {
@@ -31,26 +30,22 @@ class AdsManager {
   }
 
   void onAdLoaded(InterstitialAd ad) {
-    print('ad loaded');
     _interstitialAd = ad;
     _attemptsToLoad = 0;
     _interstitialAd?.setImmersiveMode(true);
     _isAdLoaded = true;
     _interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
-        print('$ad onAdDismissedFullScreenContent.');
         ad.dispose();
         _isAdLoaded = false;
         loadAds();
       },
       onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
-        print('$ad onAdFailedToShowFullScreenContent: $error');
         ad.dispose();
         _isAdLoaded = false;
         loadAds();
       },
       onAdClicked: (InterstitialAd ad) {
-        print('$ad onAdClicked.');
         ad.dispose();
         _isAdLoaded = false;
         loadAds();
@@ -63,10 +58,8 @@ class AdsManager {
   }
 
   Future<void> showAds() async {
-    print('showAds()');
     if (_interstitialAd != null && _isAdLoaded) {
       _counter++;
-      print('counter = $_counter');
       if (_counter > 1) {
         _interstitialAd!.show();
         _interstitialAd = null;

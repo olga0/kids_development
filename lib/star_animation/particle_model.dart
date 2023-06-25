@@ -1,7 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sa_v1_migration/sa_v1_migration.dart';
+import 'package:kids_development/star_animation/animation_progress.dart';
+import 'package:kids_development/star_animation/multi_track_tween.dart';
 
 class ParticleModel {
   late Animatable tween;

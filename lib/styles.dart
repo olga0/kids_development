@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  onPrimary: Colors.black87,
-  primary: Colors.grey[300],
+  foregroundColor: Colors.black87,
+  backgroundColor: Colors.grey[300],
   minimumSize: Size(88, 36),
   padding: EdgeInsets.symmetric(horizontal: 16),
   shape: const RoundedRectangleBorder(

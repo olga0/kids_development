@@ -70,7 +70,6 @@ class MainPageState extends State<MainPage> {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             // task is finished
-            print('snapshot has data');
             return Scaffold(
               key: _scaffoldKey,
               appBar: AppBar(
@@ -179,10 +178,8 @@ class MainPageState extends State<MainPage> {
 
   Widget _buildRemoveAdsButton() {
     // check if remove ads product was retrieved
-    print('isAdRemoved = $_isAdRemoved');
     ProductDetails? prod = _purchaseManager.getAdsProduct();
     if (prod == null) {
-      print('Product was not found');
       return Container();
     } else {
       if (_isAdRemoved) {

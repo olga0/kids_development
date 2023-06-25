@@ -1,5 +1,3 @@
-// @dart=2.9
-
 import 'dart:async';
 
 import 'package:devicelocale/devicelocale.dart';
@@ -36,7 +34,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<SharedPreferences> _prefs;
+  late Future<SharedPreferences> _prefs;
 
   @override
   void initState() {
@@ -57,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         builder: (BuildContext context,
             AsyncSnapshot<SharedPreferences> snapshot) {
           if (snapshot.hasData && snapshot.data != null) {
-            return MainPage(snapshot.data);
+            return MainPage(snapshot.data!);
           } else {
             return Scaffold(
                 appBar: AppBar(
@@ -91,23 +89,19 @@ class _MyAppState extends State<MyApp> {
   Future<String> _getCurrentLocale() async {
     try {
       var languages = await Devicelocale.preferredLanguages;
-      print('languages: $languages');
-      String preferredLanguage = languages[0]?.toString() ?? 'en';
-      print('preferred language: $preferredLanguage');
+      String preferredLanguage = languages?[0]?.toString() ?? 'en';
       var languageCode = preferredLanguage[0] + preferredLanguage[1];
-      print('language code: $languageCode');
       return languageCode;
     } on PlatformException {
-      print("Error obtaining current language");
       return 'en';
     }
   }
 
   Future<SharedPreferences> _getSharedPrefsAndInitCrashlytics() async {
     await _initializeFlutterFire();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    String chosenLanguage = prefs.getString(Constants.CHOSEN_LANGUAGE_KEY);
-    String localeLanguage = await _getCurrentLocale();
+    final prefs = await SharedPreferences.getInstance();
+    final chosenLanguage = prefs.getString(Constants.CHOSEN_LANGUAGE_KEY);
+    final localeLanguage = await _getCurrentLocale();
     prefs.setString(Constants.LOCALE_LANGUAGE_KEY, localeLanguage);
 
     if (chosenLanguage == null) {

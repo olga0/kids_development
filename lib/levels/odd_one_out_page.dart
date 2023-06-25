@@ -50,19 +50,11 @@ class OddOneOutPageState extends State<OddOneOutPage>
     isCorrectAnswerClicked = new Boolean();
     _animationFinished = ValueNotifier(false);
     initTts();
-    _animationFinished.addListener(() {
-      if (_animationFinished.value) {
-        print('window should pop');
-        //Navigator.pop(context);
-      }
-    });
     particles = Particles(30, _animationFinished);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('odd_one_out: animation finished is ${_animationFinished.value}');
-
     if (!firstScreenLoaded) {
       width = MediaQuery.of(context).size.width * 0.4;
       height = MediaQuery.of(context).size.height * 0.3;
@@ -111,13 +103,9 @@ class OddOneOutPageState extends State<OddOneOutPage>
                 _questionNumber++;
                 _picturesClicked
                     .replaceRange(0, 4, [false, false, false, false]);
-                print(_picturesClicked);
                 isCorrectAnswerClicked.value = false;
                 _pageContent = _buildPageContent();
               });
-            } else {
-              print(
-                  'odd_one_out: animation finished is ${_animationFinished.value}');
             }
           },
         ),
@@ -137,7 +125,6 @@ class OddOneOutPageState extends State<OddOneOutPage>
 
     flutterTts.setCompletionHandler(() {
       setState(() {
-        print("Complete");
         ttsState = TtsState.stopped;
       });
     });
@@ -400,8 +387,6 @@ class OptionPictureState extends State<OptionPicture> {
         widget._picturesClicked[widget._index] = true;
         if (widget._option.isCorrectAnswer) {
           widget._handleRightAnswerTap();
-          print('correct answer chosen');
-          print(widget._picturesClicked);
         }
 
         String sound = (widget._option.isCorrectAnswer)

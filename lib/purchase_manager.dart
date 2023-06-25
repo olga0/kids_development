@@ -26,11 +26,6 @@ class PurchaseManager {
   // Products for sale
   List<ProductDetails> _products = [];
 
-  // Is the API available on the device
-  bool _isAvailable = false;
-
-  String? _queryProductError;
-
   Future<bool> initializePurchaseData() async {
     final Stream<List<PurchaseDetails>> purchaseUpdated =
         _inAppPurchase.purchaseStream;
@@ -39,7 +34,6 @@ class PurchaseManager {
     }, onDone: () {
       _subscription.cancel();
     }, onError: (error) {
-      // TODO handle error here.
       _updateUIIfBillingNotAvailable();
     });
     await _initStoreInfo();
@@ -48,10 +42,8 @@ class PurchaseManager {
 
   Future<void> _initStoreInfo() async {
     final bool isAvailable = await _inAppPurchase.isAvailable();
-    print('isAvailable = $_isAvailable');
 
     if (!isAvailable) {
-      _isAvailable = isAvailable;
       _updateUIIfBillingNotAvailable();
       return;
     }
@@ -60,23 +52,15 @@ class PurchaseManager {
         await _inAppPurchase.queryProductDetails(_idSet);
 
     if (productDetailResponse.error != null) {
-      _queryProductError = productDetailResponse.error!.message;
-      _isAvailable = isAvailable;
       return;
     }
 
     if (productDetailResponse.productDetails.isEmpty) {
-      _queryProductError = null;
-      _isAvailable = isAvailable;
       _updateUIIfBillingNotAvailable();
       return;
     }
 
     _products = productDetailResponse.productDetails;
-    print('PRODUCTS:');
-    _products.forEach((product) {
-      print('product title: "${product.title}", product id: ${product.id}');
-    });
 
     await _inAppPurchase.restorePurchases();
   }
@@ -109,17 +93,14 @@ class PurchaseManager {
     // platform is Android
     String purchaseData =
         purchaseDetails.verificationData.localVerificationData;
-    print('purchase data: $purchaseData');
     var purchaseDataDecoded = jsonDecode(purchaseData);
     if (purchaseDataDecoded.containsKey("purchaseState") &&
         (purchaseDataDecoded["purchaseState"] == 0)) {
       // purchased
-      print('purchased');
       _setMainPageState(isAdsRemoved: true);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, true);
     } else {
       // not purchased
-      print('not purchased');
       _setMainPageState(isAdsRemoved: false);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, false);
     }

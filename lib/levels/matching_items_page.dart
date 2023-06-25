@@ -19,7 +19,6 @@ class MatchingItemsPage extends StatefulWidget {
 
 class MatchingItemsPageState extends State<MatchingItemsPage>
     with SingleTickerProviderStateMixin {
-  late Widget _pageContent;
   bool _firstScreenLoaded = false;
   late double _width;
   late double _height;
@@ -52,7 +51,6 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
     if (!_firstScreenLoaded) {
       _width = MediaQuery.of(context).size.width * 0.4;
       _height = MediaQuery.of(context).size.height * 0.17;
-      _pageContent = _buildPageContent();
       _firstScreenLoaded = true;
       _speak();
     }
@@ -218,7 +216,6 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
       _matched.clear();
       _allItemsMatched = false;
       _fillItemsToMatchAndItemsToMatchWith();
-      _pageContent = _buildPageContent();
     });
   }
 
@@ -249,9 +246,7 @@ class MatchingItemsPageState extends State<MatchingItemsPage>
     });
 
     _flutterTts.setCompletionHandler(() {
-      setState(() {
-        print("Complete");
-      });
+      setState(() {});
     });
 
     _flutterTts.setErrorHandler((msg) {
