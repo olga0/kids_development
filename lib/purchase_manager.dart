@@ -9,10 +9,9 @@ import 'package:collection/collection.dart';
 import 'const.dart';
 
 class PurchaseManager {
-  final Function _setMainPageState;
   final SharedPreferences _prefs;
 
-  PurchaseManager(this._setMainPageState, this._prefs);
+  PurchaseManager(this._prefs);
 
   // The In App Purchase plugin
   final InAppPurchase _inAppPurchase = InAppPurchase.instance;
@@ -101,12 +100,10 @@ class PurchaseManager {
     if (purchaseDataDecoded.containsKey("purchaseState") &&
         (purchaseDataDecoded["purchaseState"] == 0)) {
       // purchased
-      _setMainPageState(isAdsRemoved: true);
       _purchaseStateStreamController.add(true);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, true);
     } else {
       // not purchased
-      _setMainPageState(isAdsRemoved: false);
       _purchaseStateStreamController.add(false);
       _prefs.setBool(Constants.IS_AD_REMOVED_KEY, false);
     }
@@ -149,10 +146,8 @@ class PurchaseManager {
     bool? isAdRemovedPref = _prefs.getBool(Constants.IS_AD_REMOVED_KEY);
 
     if (isAdRemovedPref == null || isAdRemovedPref == false) {
-      _setMainPageState(isAdsRemoved: false);
       _purchaseStateStreamController.add(false);
     } else {
-      _setMainPageState(isAdsRemoved: true);
       _purchaseStateStreamController.add(true);
     }
   }

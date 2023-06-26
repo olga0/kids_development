@@ -10,9 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class MainCubit extends Cubit<MainState> {
   MainCubit({
-    required SharedPreferences sharedPreferences,
-    required purchaseManager,
-    required adsManager,
+    required this.sharedPreferences,
+    required this.purchaseManager,
+    required this.adsManager,
   }) : super(const MainState.loading()) {
     _setUpRefreshStreamSubscription();
   }

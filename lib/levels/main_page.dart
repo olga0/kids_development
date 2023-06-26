@@ -21,7 +21,6 @@ import '../const.dart';
 
 class MainScreen extends StatelessWidget {
 
-
   @override
   Widget build(BuildContext context) => BlocProvider<MainCubit>(
         create: _create,
@@ -304,7 +303,7 @@ class MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    _purchaseManager = PurchaseManager(_setMainPageState, widget._prefs);
+    _purchaseManager = PurchaseManager(widget._prefs);
     _adsManager = AdsManager();
 
     _chosenLanguage =
