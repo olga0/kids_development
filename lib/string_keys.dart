@@ -1,5 +1,7 @@
 class StringKeys {
   // MAIN PAGE
+  // title
+  static String kidsDevelopment = 'kids_development';
   // button labels
   static String oddOneOut = 'odd_one_out';
   static String occupationsAndVehicles = 'occupations_and_vehicles';
@@ -10,7 +12,7 @@ class StringKeys {
   static String languageDialogTitle = 'language_dialog_title';
   static String languageDialogOption1 = 'dialog_option_1';
   static String languageDialogOption2 = 'dialog_option_2';
-  static String marketDialogTitle = 'merket_dialog_title';
+  static String marketDialogTitle = 'market_dialog_title';
   static String marketDialogText = 'market_dialog_text';
   static String marketDialogPosButLabel = 'pos_but_label';
   static String marketDialogNegButLabel = 'neg_but_label';

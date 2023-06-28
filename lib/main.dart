@@ -105,48 +105,7 @@ class App extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.amber,
           ),
-          home: MainScreen(),
+          home: MainPage(),
         ),
       ));
 }
-
-// class MyApp extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   late Future<SharedPreferences> _prefs;
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     _prefs = _getSharedPrefsAndInitCrashlytics();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         primarySwatch: Colors.amber,
-//       ),
-//       home: FutureBuilder<SharedPreferences>(
-//         future: _prefs,
-//         builder:
-//             (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
-//           if (snapshot.hasData && snapshot.data != null) {
-//             return MainPage(snapshot.data!);
-//           } else {
-//             return Scaffold(
-//                 appBar: AppBar(
-//                   title: Text('Kids Development'),
-//                 ),
-//                 body: Center(child: CircularProgressIndicator()));
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }

@@ -28,13 +28,15 @@ class MainCubit extends Cubit<MainState> {
         loading: (_) async {
           await purchaseManager.initializePurchaseData();
           adsManager.loadAds();
+          return null;
         },
       );
 
   void buyProduct(ProductDetails product) =>
       purchaseManager.buyProduct(product);
 
-  void showAd() => adsManager.showAds();
+  void showAd() => state.mapOrNull(
+      loaded: (value) => value.isAdRemoved ? null : adsManager.showAds());
 
   void setLanguage(String language) => state.mapOrNull(
       loaded: (value) => emit(MainState.loaded(

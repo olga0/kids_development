@@ -6,6 +6,8 @@ class MyLocalizations {
   static Map<String, Map<String, String>> _localizedValues = {
     'en': {
       // MAIN PAGE
+      // title
+      StringKeys.kidsDevelopment: 'Kids development',
       // button labels
       StringKeys.oddOneOut: 'Odd one out',
       StringKeys.occupationsAndVehicles: 'Occupations and vehicles',
@@ -40,6 +42,8 @@ class MyLocalizations {
 
     'ru': {
       // MAIN PAGE
+      // title
+      StringKeys.kidsDevelopment: 'Развивающие игры для детей',
       // button labels
       StringKeys.oddOneOut: 'Четвёртый лишний',
       StringKeys.occupationsAndVehicles: 'Професии и транспорт',
@@ -58,14 +62,12 @@ class MyLocalizations {
       StringKeys.marketDialogTitle: 'Убрать рекламу',
 
       // ODD ONE OUT
-      // TODO not working
       StringKeys.oddOneOutTask: 'Найди лишнюю картинку.',
 
       // OCCUPATIONS AND VEHICLES
       StringKeys.occupationsAndVehiclesTask: 'Угадай кто чем управляет',
 
       // WILD OR FARM
-      // TODO not working
       StringKeys.wildTask: 'Перетащи диких животных в лес а домашних на ферму.',
 
       // EDIBLE OR NOT EDIBLE
