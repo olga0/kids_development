@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:kids_development/ads_manager.dart';
-import 'package:kids_development/cubits/main/main-cubit.dart';
+import 'package:kids_development/cubits/main/main_cubit.dart';
 import 'package:kids_development/cubits/main/main_state.dart';
 import 'package:kids_development/level_button.dart';
 import 'package:kids_development/levels/edible_or_not.dart';

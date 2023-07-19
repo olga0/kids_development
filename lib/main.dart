@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:kids_development/ads_manager.dart';
-import 'package:kids_development/cubits/main/main-cubit.dart';
+import 'package:kids_development/cubits/main/main_cubit.dart';
 import 'package:kids_development/levels/main_page.dart';
 import 'package:flutter/services.dart';
 import 'package:kids_development/purchase_manager.dart';

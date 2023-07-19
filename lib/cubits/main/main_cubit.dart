@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:kids_development/ads_manager.dart';
@@ -17,10 +18,24 @@ class MainCubit extends Cubit<MainState> {
     _setUpRefreshStreamSubscription();
   }
 
+  @visibleForTesting
+  MainCubit.test({
+    required MainState state,
+    required this.sharedPreferences,
+    required this.purchaseManager,
+    required this.adsManager,
+    bool setUpSubscriptions = true,
+  }) : super(state) {
+    // For some tests, need to skip this.
+    if (setUpSubscriptions) {
+      _setUpRefreshStreamSubscription();
+    }
+  }
+
   late SharedPreferences sharedPreferences;
   late PurchaseManager purchaseManager;
   late AdsManager adsManager;
-  late StreamSubscription<bool> _purchaseManagerStreamSubscription;
+  StreamSubscription<bool>? _purchaseManagerStreamSubscription;
 
   ProductDetails? get adsProduct => purchaseManager.getAdsProduct();
 
@@ -32,8 +47,9 @@ class MainCubit extends Cubit<MainState> {
         },
       );
 
-  void buyProduct(ProductDetails product) =>
-      purchaseManager.buyProduct(product);
+  void buyProduct(ProductDetails product) => state.mapOrNull(
+      loaded: (value) =>
+          value.isAdRemoved ? null : purchaseManager.buyProduct(product));
 
   void showAd() => state.mapOrNull(
       loaded: (value) => value.isAdRemoved ? null : adsManager.showAds());
@@ -46,7 +62,7 @@ class MainCubit extends Cubit<MainState> {
 
   @override
   Future<void> close() async {
-    await _purchaseManagerStreamSubscription.cancel();
+    await _purchaseManagerStreamSubscription?.cancel();
     return super.close();
   }
 
