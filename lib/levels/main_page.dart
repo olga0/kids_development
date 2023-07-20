@@ -18,6 +18,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../const.dart';
 
 class MainPage extends StatelessWidget {
+  static const keyOddOneOutButton =
+      Key('profile_credits_screen_add_new_credit_button');
 
   @override
   Widget build(BuildContext context) => BlocProvider<MainCubit>(
@@ -26,125 +28,130 @@ class MainPage extends StatelessWidget {
           builder: (context, state) {
             final cubit = context.read<MainCubit>();
             return state.map(
-              loading: (_) => Scaffold(
-                  appBar: AppBar(
-                    title: Text('Kids Development'),
-                  ),
-                  body: Center(child: CircularProgressIndicator())),
-              loaded: (value) => Scaffold(
+                loading: (_) => Scaffold(
                     appBar: AppBar(
                       title: Text('Kids Development'),
-                      actions: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.language),
-                          onPressed: () {
-                            _showLanguageDialog(
-                              context: context,
-                              cubit: cubit,
-                              localeLanguage: value.localeLanguage,
-                              prefs: cubit.sharedPreferences,
-                            );
-                          },
-                        )
-                      ],
                     ),
-                    body: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          LevelButton(
-                                  context: context,
-                                  label: MyLocalizations.of(
-                                      value.chosenLanguage,
-                                      StringKeys.oddOneOut),
-                                  route: MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          OddOneOutPage(
-                                              value.chosenLanguage, cubit.showAd)),
-                                  icon: 'images/odd_one_out_icon.png',
-                                  borderColor: Colors.green,
-                                  backgroundColor: (Colors.green[100])!,
-                                  highlightColor: (Colors.green[200])!,
-                                  textColor: (Colors.green[700])!)
-                              .draw(),
-                          SizedBox(width: 20, height: 20),
-                          LevelButton(
-                                  context: context,
-                                  label: MyLocalizations.of(
-                                      value.chosenLanguage,
-                                      StringKeys.occupationsAndVehicles),
-                                  route: MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          OccupationsAndVehiclesPage(
-                                              value.chosenLanguage, cubit.showAd)),
-                                  icon: 'images/who_rides_what_icon.png',
-                                  borderColor: Colors.amber,
-                                  backgroundColor: (Colors.amber[50])!,
-                                  highlightColor: (Colors.amber[200])!,
-                                  textColor: (Colors.amber[700])!)
-                              .draw(),
-                          SizedBox(width: 20, height: 20),
-                          LevelButton(
-                                  context: context,
-                                  label: MyLocalizations.of(
-                                      value.chosenLanguage,
-                                      StringKeys.wildOrFarm),
-                                  route: MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          WildOrFarmPage(
-                                              value.chosenLanguage, cubit.showAd)),
-                                  icon: 'images/pig.png',
-                                  borderColor: Colors.pink,
-                                  backgroundColor: (Colors.pink[50])!,
-                                  highlightColor: (Colors.pink[200])!,
-                                  textColor: (Colors.pink[700])!)
-                              .draw(),
-                          SizedBox(width: 20, height: 20),
-                          LevelButton(
-                                  context: context,
-                                  label: MyLocalizations.of(
-                                      value.chosenLanguage,
-                                      StringKeys.edibleOrNotEdible),
-                                  route: MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          EdibleOrNotPage(
-                                              value.chosenLanguage, cubit.showAd)),
-                                  icon: 'images/edible_or_not_icon.png',
-                                  borderColor: Colors.blue,
-                                  backgroundColor: (Colors.blue[100])!,
-                                  highlightColor: (Colors.blue[200])!,
-                                  textColor: (Colors.blue[700])!)
-                              .draw(),
-                          SizedBox(width: 20, height: 20),
-                          LevelButton(
-                                  context: context,
-                                  label: MyLocalizations.of(
-                                      value.chosenLanguage,
-                                      StringKeys.matchingItems),
-                                  route: MaterialPageRoute(
-                                      builder: (BuildContext context) =>
-                                          MatchingItemsPage(
-                                              value.chosenLanguage, cubit.showAd)),
-                                  icon: 'images/matching_icon.png',
-                                  borderColor: Colors.red,
-                                  backgroundColor: (Colors.red[100])!,
-                                  highlightColor: (Colors.red[200])!,
-                                  textColor: (Colors.red[700])!)
-                              .draw(),
-                          if (cubit.adsProduct != null && !value.isAdRemoved) ...[
-                            SizedBox(width: 20, height: 20),
-                            _RemoveAdsButton(
-                              parentContext: context,
-                              adsProduct: cubit.adsProduct!,
-                              localeLanguage: value.localeLanguage,
-                            ),
-                          ]
+                    body: Center(child: Text('Loading...'))),
+                loaded: (value) => Scaffold(
+                      appBar: AppBar(
+                        title: Text('Kids Development'),
+                        actions: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.language),
+                            onPressed: () {
+                              _showLanguageDialog(
+                                context: context,
+                                cubit: cubit,
+                                localeLanguage: value.localeLanguage,
+                                prefs: cubit.sharedPreferences,
+                              );
+                            },
+                          )
                         ],
                       ),
-                    ),
-                  ));
+                      body: Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.all(15.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            LevelButton(
+                                    key: MainPage.keyOddOneOutButton,
+                                    context: context,
+                                    label: MyLocalizations.of(
+                                        value.chosenLanguage,
+                                        StringKeys.oddOneOut),
+                                    route: MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            OddOneOutPage(value.chosenLanguage,
+                                                cubit.showAd)),
+                                    icon: 'images/odd_one_out_icon.png',
+                                    borderColor: Colors.green,
+                                    backgroundColor: (Colors.green[100])!,
+                                    highlightColor: (Colors.green[200])!,
+                                    textColor: (Colors.green[700])!)
+                                .draw(),
+                            SizedBox(width: 20, height: 20),
+                            LevelButton(
+                                    context: context,
+                                    label: MyLocalizations.of(
+                                        value.chosenLanguage,
+                                        StringKeys.occupationsAndVehicles),
+                                    route: MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            OccupationsAndVehiclesPage(
+                                                value.chosenLanguage,
+                                                cubit.showAd)),
+                                    icon: 'images/who_rides_what_icon.png',
+                                    borderColor: Colors.amber,
+                                    backgroundColor: (Colors.amber[50])!,
+                                    highlightColor: (Colors.amber[200])!,
+                                    textColor: (Colors.amber[700])!)
+                                .draw(),
+                            SizedBox(width: 20, height: 20),
+                            LevelButton(
+                                    context: context,
+                                    label: MyLocalizations.of(
+                                        value.chosenLanguage,
+                                        StringKeys.wildOrFarm),
+                                    route: MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            WildOrFarmPage(value.chosenLanguage,
+                                                cubit.showAd)),
+                                    icon: 'images/pig.png',
+                                    borderColor: Colors.pink,
+                                    backgroundColor: (Colors.pink[50])!,
+                                    highlightColor: (Colors.pink[200])!,
+                                    textColor: (Colors.pink[700])!)
+                                .draw(),
+                            SizedBox(width: 20, height: 20),
+                            LevelButton(
+                                    context: context,
+                                    label: MyLocalizations.of(
+                                        value.chosenLanguage,
+                                        StringKeys.edibleOrNotEdible),
+                                    route: MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            EdibleOrNotPage(
+                                                value.chosenLanguage,
+                                                cubit.showAd)),
+                                    icon: 'images/edible_or_not_icon.png',
+                                    borderColor: Colors.blue,
+                                    backgroundColor: (Colors.blue[100])!,
+                                    highlightColor: (Colors.blue[200])!,
+                                    textColor: (Colors.blue[700])!)
+                                .draw(),
+                            SizedBox(width: 20, height: 20),
+                            LevelButton(
+                                    context: context,
+                                    label: MyLocalizations.of(
+                                        value.chosenLanguage,
+                                        StringKeys.matchingItems),
+                                    route: MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            MatchingItemsPage(
+                                                value.chosenLanguage,
+                                                cubit.showAd)),
+                                    icon: 'images/matching_icon.png',
+                                    borderColor: Colors.red,
+                                    backgroundColor: (Colors.red[100])!,
+                                    highlightColor: (Colors.red[200])!,
+                                    textColor: (Colors.red[700])!)
+                                .draw(),
+                            if (cubit.adsProduct != null &&
+                                !value.isAdRemoved) ...[
+                              SizedBox(width: 20, height: 20),
+                              _RemoveAdsButton(
+                                parentContext: context,
+                                adsProduct: cubit.adsProduct!,
+                                localeLanguage: value.localeLanguage,
+                              ),
+                            ]
+                          ],
+                        ),
+                      ),
+                    ));
           },
         ),
       );
@@ -204,18 +211,19 @@ class MainPage extends StatelessWidget {
 class _RemoveAdsButton extends StatelessWidget {
   _RemoveAdsButton({
     Key? key,
-    required ProductDetails adsProduct,
-    required BuildContext parentContext,
-    required String localeLanguage,
+    required this.adsProduct,
+    required this.parentContext,
+    required this.localeLanguage,
   }) : super(key: key);
 
-  late final ProductDetails adsProduct;
-  late final BuildContext parentContext;
-  late final String localeLanguage;
+  final ProductDetails adsProduct;
+  final BuildContext parentContext;
+  final String localeLanguage;
 
   @override
   Widget build(BuildContext context) => ElevatedButton(
-        onPressed: () => _showPurchaseDialog(parentContext, adsProduct, localeLanguage),
+        onPressed: () =>
+            _showPurchaseDialog(parentContext, adsProduct, localeLanguage),
         child: Text(
             MyLocalizations.of(localeLanguage, StringKeys.marketDialogTitle),
             style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -233,8 +241,8 @@ class _RemoveAdsButton extends StatelessWidget {
     String localeLanguage,
   ) {
     StringBuffer buffer = new StringBuffer();
-    buffer.write(
-        MyLocalizations.of(localeLanguage, StringKeys.marketDialogText));
+    buffer
+        .write(MyLocalizations.of(localeLanguage, StringKeys.marketDialogText));
     buffer.write(prod.price);
     buffer.write('?');
     String text = buffer.toString();

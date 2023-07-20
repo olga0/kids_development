@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LevelButton {
+  Key? key;
   BuildContext context;
   String label;
   MaterialPageRoute? route;
@@ -8,7 +9,8 @@ class LevelButton {
   Color borderColor, backgroundColor, highlightColor, textColor;
 
   LevelButton(
-      {required this.context,
+      {this.key,
+      required this.context,
       required this.label,
       required this.route,
       required this.icon,
@@ -19,6 +21,7 @@ class LevelButton {
 
   ElevatedButton draw() {
     return ElevatedButton(
+      key: key,
       onPressed: () {
         if (route != null) {
           Navigator.push(context, route!);
